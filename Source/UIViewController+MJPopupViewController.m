@@ -54,6 +54,7 @@ static void * const keypath = (void*)&keypath;
 - (void)presentPopupViewController:(UIViewController*)popupViewController animationType:(MJPopupViewAnimation)animationType dismissed:(void(^)(void))dismissed
 {
     self.mj_popupViewController = popupViewController;
+    [self addChildViewController:popupViewController];
     [self presentPopupView:popupViewController.view animationType:animationType dismissed:dismissed];
 }
 
@@ -84,6 +85,7 @@ static void * const keypath = (void*)&keypath;
             [self fadeViewOut:popupView sourceView:sourceView overlayView:overlayView];
             break;
     }
+    [self.mj_popupViewController removeFromParentViewController];
     self.mj_popupViewController = nil;
 }
 
