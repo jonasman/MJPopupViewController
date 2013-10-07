@@ -169,7 +169,7 @@
     switch (indexPath.section) {
         case 0: {
             MJDetailViewController *detailViewController = [[MJDetailViewController alloc] initWithNibName:@"MJDetailViewController" bundle:nil];
-            [self presentPopupViewController:detailViewController animationType:indexPath.row];
+            [self presentPopupViewController:detailViewController animationType:indexPath.row  dismissed:nil options:MJOptionTapOutsideDoNotClose];
         }
             break;
             
