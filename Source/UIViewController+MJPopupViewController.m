@@ -56,6 +56,7 @@ static void * const keypath = (void*)&keypath;
     self.mj_popupViewController = popupViewController;
     [self addChildViewController:popupViewController];
     [self presentPopupView:popupViewController.view animationType:animationType dismissed:dismissed options:options];
+    [popupViewController didMoveToParentViewController:self];
 }
 
 - (void)presentPopupViewController:(UIViewController*)popupViewController animationType:(MJPopupViewAnimation)animationType
@@ -68,6 +69,9 @@ static void * const keypath = (void*)&keypath;
     UIView *sourceView = [self topView];
     UIView *popupView = [sourceView viewWithTag:kMJPopupViewTag];
     UIView *overlayView = [sourceView viewWithTag:kMJOverlayViewTag];
+    
+    [self.mj_popupViewController willMoveToParentViewController:nil];
+    [self.mj_popupViewController removeFromParentViewController];
     
     switch (animationType) {
         case MJPopupViewAnimationSlideBottomTop:
@@ -85,8 +89,9 @@ static void * const keypath = (void*)&keypath;
             [self fadeViewOut:popupView sourceView:sourceView overlayView:overlayView];
             break;
     }
-    [self.mj_popupViewController removeFromParentViewController];
+   
     self.mj_popupViewController = nil;
+    [self.mj_popupViewController didMoveToParentViewController:nil];
 }
 
 
@@ -141,7 +146,7 @@ static void * const keypath = (void*)&keypath;
     [overlayView addSubview:dismissButton];
     [dismissButton addTarget:self action:@selector(dismissPopupViewControllerWithanimation:) forControlEvents:UIControlEventTouchUpInside];
     
-    if (options ^ MJOptionTapOutsideDoNotClose){
+    if (options & MJOptionTapOutsideDoNotClose){
         dismissButton.enabled = NO;
     }
     
